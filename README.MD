@@ -1,4 +1,4 @@
-# Device Tree for OnePlus 6 (enchilada)
+# Device Tree for Gigaset ME (me)
 
 The ME (codenamed _"me"_) is a smartphone from Gigaset.
 It was released in November 2015.
