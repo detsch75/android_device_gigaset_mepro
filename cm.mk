@@ -21,9 +21,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/gigaset/me/device.mk)
 
 # Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+$(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-PRODUCT_NAME := lineage_me
+PRODUCT_NAME := cm_me
 PRODUCT_DEVICE := me
 PRODUCT_MANUFACTURER := Gigaset
 PRODUCT_BRAND := Gigaset
