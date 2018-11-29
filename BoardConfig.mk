@@ -31,8 +31,8 @@ PLATFORM_PATH := device/gigaset/me
 BOARD_VENDOR := gigaset
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := MSM8994
-TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := msm8994
+TARGET_NO_BOOTLOADER := false
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8994
@@ -52,11 +52,11 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
 TARGET_CPU_CORTEX_A53 := true
-
+TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-5
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-5 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
@@ -103,7 +103,6 @@ TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 
 BOARD_EGL_CFG := $(PLATFORM_PATH)/egl.cfg
-BOARD_KERNEL_SEPARATED_DT := true
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -128,7 +127,7 @@ ifeq ($(HOST_OS),linux)
 endif
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/recovery.fstab
 
 # inherit from the proprietary version
 -include vendor/gigaset/me/BoardConfigVendor.mk

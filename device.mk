@@ -35,6 +35,7 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Ramdisk
 PRODUCT_PACKAGES += \
+    fstab.qcom \
     init.recovery.qcom.rc \
 
 # Filesystem management tools
