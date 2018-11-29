@@ -33,16 +33,28 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 # Haters gonna hate..
 PRODUCT_CHARACTERISTICS := nosdcard
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=480
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.recovery.qcom.rc \
+    init.recovery.qcom.rc
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     e2fsck \
     make_ext4fs \
     setup_fs
+
+# Display
+PRODUCT_PACKAGES += \
+    copybit.msm8994 \
+    gralloc.msm8994 \
+    hwcomposer.msm8994 \
+    memtrack.msm8994 \
+    liboverlay \
+    libtinyxml
 
 # Inherit from oppo-common
 $(call inherit-product, device/oppo/common/common.mk)
