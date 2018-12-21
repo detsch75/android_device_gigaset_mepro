@@ -35,13 +35,22 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    init.recovery.qcom.rc \
+    fstab.qcom \
+    init.recovery.qcom.rc
+    
+# Power
+PRODUCT_PACKAGES += \
+    android.hardware.power@1.0-service-qti
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     e2fsck \
     make_ext4fs \
     setup_fs
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.opengles.version=196610 \
+    ro.sf.lcd_density=480
 
 # Inherit from oppo-common
 $(call inherit-product, device/oppo/common/common.mk)

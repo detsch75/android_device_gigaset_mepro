@@ -51,15 +51,18 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53.a57
 
+TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
+TARGET_CPU_CORTEX_A53 := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-5
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-5 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_RAMDISK_OFFSET := 0x02000000
 BOARD_KERNEL_IMAGE_NAME := Image
+BOARD_KERNEL_SEPARATED_DT := true
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/gigaset/msm8994
@@ -99,7 +102,11 @@ TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 
 BOARD_EGL_CFG := $(PLATFORM_PATH)/egl.cfg
-BOARD_KERNEL_SEPARATED_DT := true
+
+BOARD_NEEDS_VENDORIMAGE_SYMLINK := true
+
+# write vendor modules to system
+TARGET_COPY_OUT_VENDOR := system
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -109,7 +116,15 @@ include device/qcom/sepolicy/sepolicy.mk
 include device/qcom/sepolicy/legacy-sepolicy.mk
 BOARD_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy
 
+# Init
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_me
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
+
+TARGET_LDPRELOAD := libNimsWrap.so
+
+# Keystore
+TARGET_PROVIDES_KEYMASTER := true
 
 # Dexpreopt
 ifeq ($(HOST_OS),linux)
@@ -126,3 +141,17 @@ TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/fstab.qcom
 
 # inherit from the proprietary version
 -include vendor/gigaset/me/BoardConfigVendor.mk
+
+RECOVERY_VARIANT := twrp
+
+# TWRP
+TW_THEME := portrait_hdpi
+BOARD_HAS_NO_REAL_SDCARD := true
+RECOVERY_SDCARD_ON_DATA  := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+TW_DEFAULT_LANGUAGE := en-US
+TW_EXTRA_LANGUAGES := true
+TW_INCLUDE_CRYPTO := true
+TW_IGNORE_MISC_WIPE_DATA := true
+TW_USE_TOOLBOX := true

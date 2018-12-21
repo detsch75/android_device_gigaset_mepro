@@ -5,9 +5,18 @@
 #TODO: Add 'check' as fs_mgr_flags with data partition.
 # Currently we dont have e2fsck compiled. So fs check would failed.
 
-#<src>                                  <mnt_point>        <type>  <mnt_flags and options>                             <fs_mgr_flags>
-/dev/block/bootdevice/by-name/system    /system            ext4    ro,barrier=1,discard                                wait
-/dev/block/bootdevice/by-name/userdata  /data              ext4    nosuid,nodev,barrier=1,noauto_da_alloc,discard      wait,check,encryptable=footer
-/devices/soc.0/f98a4900.sdhci/mmc_host  /storage/sdcard1   vfat    nosuid,nodev                                        wait,voldmanaged=sdcard1:auto
-/devices/soc.0/f9a55000.ehci/usb1       /storage/uicc0     vfat    nosuid,nodev                                        wait,voldmanaged=uicc0:auto
-/devices/soc.0/f9a55000.ehci/usb1       /storage/uicc1     vfat    nosuid,nodev                                        wait,voldmanaged=uicc1:auto
+#<src>                                  			<mnt_point>        <type>  <mnt_flags and options>                             <fs_mgr_flags>
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/boot                 /boot             emmc    defaults                                                                                                        defaults
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/recovery             /recovery         emmc    defaults                                                                                                        defaults
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/system               /system           ext4    ro,barrier=1,discard                                                                                            wait,recoveryonly
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/userdata             /data             f2fs    rw,discard,nosuid,nodev,noatime,inline_xattr,noinline_dentry                                                    wait,check,encryptable=footer
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/userdata             /data             ext4    nosuid,nodev,barrier=1,noatime,noauto_da_alloc,commit=20,discard                                                wait,check,encryptable=footer
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/cache                /cache            f2fs    rw,discard,nosuid,nodev,noatime,inline_xattr,noinline_dentry                                                    wait
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/cache                /cache            ext4    nosuid,nodev,noatime,noauto_da_alloc,commit=20                                                                  wait
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/persist              /persist          ext4    nosuid,nodev,barrier=1                                                                                          wait
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/misc                 /misc             emmc    defaults                                                                                                        defaults
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/modem                /firmware         vfat    ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0                    wait
+/dev/block/platform/soc.0/f9824900.sdhci/by-name/bluetooth            /bt_firmware      vfat    ro,shortname=lower,uid=1002,gid=3002,dmask=222,fmask=333,context=u:object_r:bt_firmware_file:s0                 wait
+/devices/soc.0/f98a4900.sdhci/mmc_host             /storage/sdcard1  vfat    nosuid,nodev                                                                                                    wait,voldmanaged=sdcard1:auto
+/devices/soc.0/f9a55000.ehci/usb1                  /storage/uicc0    vfat    nosuid,nodev                                                                                                    wait,voldmanaged=uicc0:auto
+/devices/soc.0/f9a55000.ehci/usb1                  /storage/uicc1    vfat    nosuid,nodev                                                                                                    wait,voldmanaged=uicc1:auto
