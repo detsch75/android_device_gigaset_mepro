@@ -32,28 +32,6 @@ if [ -f /sys/devices/soc0/soc_id ]; then
 else
     platformid=`cat /sys/devices/system/soc/soc0/id`
 fi
-#
-# Function to start sensors for DSPS enabled platforms
-#
-# GIGASET_EDIT
-# 2015-04-16 add begin for gyro sensitity calibration
-start_sensors()
-{
-    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
-        mkdir -p /persist/sensors
-        chmod -h 775 /persist/sensors
-        chmod -h 664 /persist/sensors/sensors_settings
-        chown -h system.root /persist/sensors/sensors_settings
-        chmod -h 664 /persist/sensors/gyro_sensitity_cal
-        chown -h system.root /persist/sensors/gyro_sensitity_cal
-
-        mkdir -p /data/misc/sensors
-        chmod -h 775 /data/misc/sensors
-
-        start sensors
-    fi
-}
-# qiucahngping@BSP add end
 
 start_battery_monitor()
 {
@@ -142,7 +120,6 @@ case "$baseband" in
         ;;
 esac
 
-#start_sensors
 #start_copying_prebuilt_qcril_db
 
 case "$target" in
@@ -283,3 +260,5 @@ cp -r /system/etc/firmware/mbn_ota/* /data/misc/radio/modem_config
 #endif /*VENDOR_EDIT*/
 chown -hR radio.radio /data/misc/radio/modem_config
 echo 1 > /data/misc/radio/copy_complete
+
+setprop qcom.audio.init complete

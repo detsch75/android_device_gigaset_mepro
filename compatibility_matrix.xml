@@ -31,6 +31,14 @@
             <instance>ashmem</instance>
         </interface>
     </hal>
+    <hal format="hidl" optional="false">
+        <name>android.system.wifi.keystore</name>
+        <version>1.0</version>
+        <interface>
+            <name>IKeystore</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
     <!--hal format="hidl" optional="false">
         <name>android.frameworks.schedulerservice</name>
         <version>1.0</version>
@@ -44,14 +52,6 @@
         <version>1.0</version>
         <interface>
             <name>ITokenManager</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="false">
-        <name>android.system.wifi.keystore</name>
-        <version>1.0</version>
-        <interface>
-            <name>IKeystore</name>
             <instance>default</instance>
         </interface>
     </hal-->

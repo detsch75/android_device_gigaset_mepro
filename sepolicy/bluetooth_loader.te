@@ -1,0 +1,1 @@
+allow bluetooth_loader toolbox_exec:file { execute execute_no_trans getattr read open };

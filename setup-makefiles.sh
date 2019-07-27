@@ -21,7 +21,7 @@ set -e
 export INITIAL_COPYRIGHT_YEAR=2015
 
 # Required!
-DEVICE=me
+DEVICE=mepro
 VENDOR=gigaset
 
 # Load extractutils and do some sanity checks
@@ -46,11 +46,12 @@ write_headers
 # The standard blobs
 write_makefiles "$MY_DIR"/proprietary-files.txt
 
-#cat << EOF >> "$ANDROIDMK"
-#
-#\$(shell mkdir -p \$(PRODUCT_OUT)/system/vendor/lib/egl && pushd \$(PRODUCT_OUT)/system/vendor/lib > /dev/null && ln -s egl/libEGL_adreno.so libEGL_adreno.so && popd > /dev/null)
-#\$(shell mkdir -p \$(PRODUCT_OUT)/system/vendor/lib64/egl && pushd \$(PRODUCT_OUT)/system/vendor/lib64 > /dev/null && ln -s egl/libEGL_adreno.so libEGL_adreno.so && popd > /dev/null)
-#EOF
+cat << EOF >> "$ANDROIDMK"
+
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/wcd9320_anc.bin wcd9320_anc.bin && popd > /dev/null)
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/wcd9320_mad_audio.bin wcd9320_mad_audio.bin && popd > /dev/null)
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/mbhc.bin wcd9320_mbhc.bin && popd > /dev/null)
+EOF
 
 # We are done!
 write_footers

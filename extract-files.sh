@@ -18,7 +18,7 @@
 
 set -e
 
-DEVICE=me
+DEVICE=mepro
 VENDOR=gigaset
 
 # Load extractutils and do some sanity checks

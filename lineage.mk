@@ -18,21 +18,21 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit from me device
-$(call inherit-product, device/gigaset/me/device.mk)
+$(call inherit-product, device/gigaset/mepro/device.mk)
 
 # Inherit some common Lineage stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
-PRODUCT_NAME := lineage_me
-PRODUCT_DEVICE := me
+PRODUCT_NAME := lineage_mepro
+PRODUCT_DEVICE := mepro
 PRODUCT_MANUFACTURER := Gigaset
 PRODUCT_BRAND := Gigaset
 
 PRODUCT_GMS_CLIENTID_BASE := android-gigaset
 
-TARGET_VENDOR_PRODUCT_NAME := ME
-TARGET_VENDOR_DEVICE_NAME := ME
-PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=ME PRODUCT_NAME=ME
+TARGET_VENDOR_PRODUCT_NAME := MEPro
+TARGET_VENDOR_DEVICE_NAME := MEPro
+PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=MEPro PRODUCT_NAME=MEPro
 
 PRODUCT_SYSTEM_PROPERTY_BLACKLIST += ro.product.model
 

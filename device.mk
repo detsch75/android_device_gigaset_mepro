@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-$(call inherit-product-if-exists, vendor/gigaset/me/me-vendor.mk)
-$(call inherit-product-if-exists, vendor/gigaset/me-graphics/me-graphics-vendor.mk)
+$(call inherit-product-if-exists, vendor/gigaset/mepro/mepro-vendor.mk)
+$(call inherit-product-if-exists, vendor/gigaset/mepro-graphics/mepro-graphics-vendor.mk)
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
@@ -69,13 +69,18 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 # Haters gonna hate..
 PRODUCT_CHARACTERISTICS := default
 
+PRODUCT_PACKAGES += \
+    libshim_atomic
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
     init.me.power.sh \
+    init.qcom.bt.sh \
     init.qcom.power.rc \
     init.qcom.rc \
     init.qcom.sh \
+    init.qcom.sensors.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
     init.recovery.qcom.rc \
@@ -88,6 +93,11 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libbt-vendor
+
+# DRM
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.0-impl \
+    android.hardware.drm@1.0-service
 
 # Display
 PRODUCT_PACKAGES += \
@@ -110,44 +120,55 @@ PRODUCT_PACKAGES += \
     liboverlay \
     libtinyxml
 
-# Fingerprint sensor
-#PRODUCT_PACKAGES += \
-#    android.hardware.biometrics.fingerprint@2.0-service
+# USB
+PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service
 
-# DRM
-#PRODUCT_PACKAGES += \
-#    android.hardware.drm@1.0-impl \
-#    android.hardware.drm@1.0-service
+# For config.fs
+PRODUCT_PACKAGES += \
+    fs_config_files
+
+# IRSC
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
+
+# Fingerprint sensor
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.0-service
 
 # Audio
-#PRODUCT_PACKAGES += \
-#    android.hardware.audio@2.0-impl \
-#    android.hardware.audio@2.0-service \
-#    android.hardware.audio.effect@2.0-impl \
-#    android.hardware.audio.effect@2.0-service \
-#    android.hardware.soundtrigger@2.0-impl \
-#    android.hardware.soundtrigger@2.0-service
+#USE_XML_AUDIO_POLICY_CONF := 1
+PRODUCT_PACKAGES += \
+    android.hardware.audio@2.0-impl \
+    android.hardware.audio@2.0-service \
+    android.hardware.audio.effect@2.0-impl \
+    android.hardware.audio.effect@2.0-service \
+    android.hardware.soundtrigger@2.0-impl \
+    android.hardware.soundtrigger@2.0-service
 
-#PRODUCT_PACKAGES += \
-#    audio.a2dp.default \
-#    audio.primary.msm8994 \
-#    audio.r_submix.default \
-#    audio.usb.default \
-#    libaudio-resampler \
-#    libqcompostprocbundle \
-#    libqcomvisualizer \
-#    libqcomvoiceprocessing \
-#    tinymix
+PRODUCT_PACKAGES += \
+    audio.a2dp.default \
+    audio.primary.msm8994 \
+    audio_amplifier.msm8994 \
+    audio.r_submix.default \
+    audio.usb.default \
+    libaudio-resampler \
+    libqcompostprocbundle \
+    libqcomvisualizer \
+    libqcomvoiceprocessing \
+    tinymix \
+    tinyplay \
+    libtfa9890
 
-#PRODUCT_COPY_FILES += \
-#    $(LOCAL_PATH)/audio/aanc_tuning_mixer.txt:$(TARGET_COPY_OUT_VENDOR)/etc/aanc_tuning_mixer.txt \
-#    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
-#    $(LOCAL_PATH)/audio/audio_output_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_output_policy.conf \
-#    $(LOCAL_PATH)/audio/audio_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info.xml \
-#    $(LOCAL_PATH)/audio/audio_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy.conf \
-#    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
-#    $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths.xml \
-#    $(LOCAL_PATH)/audio/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/aanc_tuning_mixer.txt:system/etc/aanc_tuning_mixer.txt \
+    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
+    $(LOCAL_PATH)/audio/audio_output_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_output_policy.conf \
+    $(LOCAL_PATH)/audio/audio_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info.xml \
+    $(LOCAL_PATH)/audio/audio_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy.conf \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
+    $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml \
+    $(LOCAL_PATH)/audio/sound_trigger_platform_info.xml:system/etc/sound_trigger_platform_info.xml
     
 # Power
 PRODUCT_PACKAGES += \
@@ -155,13 +176,12 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-impl \
-    lights.msm8994
+    android.hardware.light@2.0-service.me
 
 # Gatekeeper
-#PRODUCT_PACKAGES += \
-#    android.hardware.gatekeeper@1.0-impl \
-#    android.hardware.gatekeeper@1.0-service
+PRODUCT_PACKAGES += \
+    android.hardware.gatekeeper@1.0-impl \
+    android.hardware.gatekeeper@1.0-service
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -172,6 +192,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=256m
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
+
+# For data
+PRODUCT_PACKAGES += \
+   librmnetctl
 
 # HIDL
 PRODUCT_PACKAGES += \
@@ -190,13 +214,21 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vendor.lineage.livedisplay@1.0-service-legacymm
 
-# WiFi
-#PRODUCT_PACKAGES += \
-#    android.hardware.wifi@1.0-service
+# IPv6
+PRODUCT_PACKAGES += \
+    ebtables \
+    ethertypes
 
-#PRODUCT_PACKAGES += \
-#    wpa_supplicant \
-#    wpa_supplicant.conf
+# WiFi
+PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0-service
+
+PRODUCT_PACKAGES += \
+    wificond \
+    hostapd \
+    libwpa_client \
+    wpa_supplicant \
+    wpa_supplicant.conf
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
@@ -204,14 +236,42 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/wifi/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini
 
+# Custom wifi service
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/vendor/etc/init/android.hardware.wifi@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi@1.0-service.rc
+
+# Power
+PRODUCT_PACKAGES += \
+    android.hardware.power@1.0-service-qti
+
 # Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml
+    $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
 
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml
+
+# OMX
+PRODUCT_PACKAGES += \
+    libc2dcolorconvert \
+    libdashplayer \
+    libextmedia_jni \
+    libOmxAacEnc \
+    libOmxAmrEnc \
+    libOmxCore \
+    libOmxEvrcEnc \
+    libOmxQcelp13Enc \
+    libOmxSwVencMpeg4 \
+    libOmxSwVencHevc \
+    libOmxVdec \
+    libOmxVdecHevc \
+    libOmxVenc \
+    libOmxVidcCommon \
+    libstagefrighthw \
+    libstagefright_soft_flacdec
 
 # RenderScript
 PRODUCT_PACKAGES += \

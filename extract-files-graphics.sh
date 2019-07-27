@@ -18,7 +18,7 @@
 
 set -e
 
-DEVICE=me-graphics
+DEVICE=mepro-graphics
 VENDOR=gigaset
 
 # Load extractutils and do some sanity checks

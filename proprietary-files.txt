@@ -20,40 +20,63 @@ vendor/lib64/libssd.so
 bin/mm-pp-daemon:vendor/bin/mm-pp-daemon
 vendor/lib/libdisp-aba.so
 vendor/lib/libmm-abl-oem.so
-vendor/lib/libmm-abl.so
+-vendor/lib/libmm-abl.so
 vendor/lib/libmm-als.so
 vendor/lib/libmm-qdcm.so
 vendor/lib64/libdisp-aba.so
 vendor/lib64/libmm-abl-oem.so
-vendor/lib64/libmm-abl.so
+-vendor/lib64/libmm-abl.so
 vendor/lib64/libmm-als.so
 vendor/lib64/libmm-qdcm.so
 
+# Net
+bin/netmgrd:vendor/bin/netmgrd
+
 # QMI
-vendor/lib/libdiag.so
-vendor/lib/libdsutils.so
-vendor/lib/libidl.so
+bin/imsdatadaemon:vendor/bin/imsdatadaemon
+bin/imsqmidaemon:vendor/bin/imsqmidaemon
+vendor/lib/libcneapiclient.so
+vendor/lib/libdsi_netctrl.so
+-vendor/lib/libdiag.so
+-vendor/lib/libdsutils.so
+-vendor/lib/libidl.so
+-vendor/lib/libqmi.so
 vendor/lib/libqmi_cci.so
 vendor/lib/libqmi_csi.so
 vendor/lib/libqmi_client_helper.so
-vendor/lib/libqmi_client_qmux.so
+-vendor/lib/libqmi_client_qmux.so
 vendor/lib/libqmi_common_so.so
 vendor/lib/libqmi_encdec.so
 vendor/lib/libsmemlog.so
-vendor/lib/libqmiservices.so
-vendor/lib/libmdmdetect.so
-vendor/lib64/libdiag.so
-vendor/lib64/libidl.so
-vendor/lib64/libdsutils.so
+-vendor/lib/libqmiservices.so
+-vendor/lib/libmdmdetect.so
+lib/libcnefeatureconfig.so:vendor/lib/libcnefeatureconfig.so:
+vendor/lib/libconfigdb.so
+vendor/lib/libnetmgr.so
+vendor/lib/libqdi.so
+lib/libstlport.so:vendor/lib/libstlport.so
+vendor/lib/libxml.so
+-vendor/lib64/libdiag.so
+-vendor/lib64/libidl.so
+-vendor/lib64/libdsutils.so
+-vendor/lib64/libqmi.so
 vendor/lib64/libqmi_cci.so
 vendor/lib64/libqmi_csi.so
 vendor/lib64/libqmi_client_helper.so
-vendor/lib64/libqmi_client_qmux.so
+-vendor/lib64/libqmi_client_qmux.so
 vendor/lib64/libqmi_common_so.so
 vendor/lib64/libqmi_encdec.so
 vendor/lib64/libsmemlog.so
-vendor/lib64/libqmiservices.so
-vendor/lib64/libmdmdetect.so
+-vendor/lib64/libqmiservices.so
+-vendor/lib64/libmdmdetect.so
+vendor/lib64/libcneapiclient.so
+vendor/lib64/libdsi_netctrl.so
+lib64/libcnefeatureconfig.so:vendor/lib64/libcnefeatureconfig.so:
+vendor/lib64/libconfigdb.so
+vendor/lib64/libnetmgr.so
+vendor/lib64/libqdi.so
+lib64/libstlport.so:vendor/lib64/libstlport.so
+vendor/lib64/libxml.so
 
 # Perf
 bin/energy-awareness:vendor/bin/energy-awareness
@@ -73,13 +96,169 @@ vendor/lib64/libqti-perfd-client.so
 bin/sensors.qcom:vendor/bin/sensors.qcom
 etc/sensors/sensor_def_qcomdev.conf
 vendor/lib/hw/activity_recognition.msm8994.so
+vendor/lib/hw/sensors.msm8994.so
 vendor/lib/libsensor1.so
 vendor/lib/libsensor_reg.so
 vendor/lib/libsensor_user_cal.so
 vendor/lib64/hw/activity_recognition.msm8994.so
+vendor/lib64/hw/sensors.msm8994.so
 vendor/lib64/libsensor1.so
 vendor/lib64/libsensor_reg.so
 vendor/lib64/libsensor_user_cal.so
 
 vendor/lib/libNimsWrap.so
 vendor/lib64/libNimsWrap.so
+
+# Bluetooth
+bin/btnvtool:vendor/bin/btnvtool
+bin/hci_qcomm_init:vendor/bin/hci_qcomm_init
+bin/wcnss_filter:vendor/bin/wcnss_filter
+etc/firmware/nvm_tlv.bin:vendor/firmware/nvm_tlv.bin
+etc/firmware/nvm_tlv_1.3.bin:vendor/firmware/nvm_tlv_1.3.bin
+etc/firmware/nvm_tlv_2.1.bin:vendor/firmware/nvm_tlv_2.1.bin
+etc/firmware/nvm_tlv_3.0.bin:vendor/firmware/nvm_tlv_3.0.bin
+etc/firmware/nvm_tlv_3.2.bin:vendor/firmware/nvm_tlv_3.2.bin
+etc/firmware/rampatch_tlv.img:vendor/firmware/rampatch_tlv.img
+etc/firmware/rampatch_tlv_1.3.tlv:vendor/firmware/rampatch_tlv_1.3.tlv
+etc/firmware/rampatch_tlv_2.1.tlv:vendor/firmware/rampatch_tlv_2.1.tlv
+etc/firmware/rampatch_tlv_3.0.tlv:vendor/firmware/rampatch_tlv_3.0.tlv
+etc/firmware/rampatch_tlv_3.2.tlv:vendor/firmware/rampatch_tlv_3.2.tlv
+vendor/lib/libbtnv.so
+vendor/lib64/libbtnv.so
+
+# ADSP
+bin/adsprpcd:vendor/bin/adsprpcd
+vendor/lib/libadsprpc.so
+vendor/lib/libfastcvopt.so
+vendor/lib64/libadsprpc.so
+
+# Audio
+etc/firmware/smartpa/tfa98xx_17421.cnt
+etc/firmware/smartpa/17421_version.txt
+etc/firmware/smartpa/tfa98xx_17427.cnt
+etc/firmware/smartpa/17427_version.txt
+etc/firmware/audience/cvqmodels/adnc_cvq_detection_bkg.bin
+etc/firmware/audience/cvqmodels/adnc_cvq_training_bkg.bin
+etc/firmware/audience/cvqmodels/adnc_cvq_detection_bkg_w_hdrs.bin
+etc/firmware/audience/es705/audience-es705-fw.bin
+etc/firmware/audience/es705/audience-es705-vs.bin
+vendor/lib/libacdb-fts.so
+vendor/lib/libacdbloader.so
+vendor/lib/libacdbrtac.so
+vendor/lib/libadiertac.so
+vendor/lib/libaudcal.so
+vendor/lib/libhwdaphal.so
+vendor/lib/hw/sound_trigger.primary.msm8994.so
+lib/libaudioroute.so:vendor/lib/libaudioroute.so
+-lib/libtfa9890.so:vendor/lib/libtfa9890.so
+vendor/lib/libDiracAPI_SHARED.so
+vendor/lib/soundfx/libdirac.so
+vendor/lib/soundfx/libqcbassboost.so
+vendor/lib/soundfx/libqcreverb.so
+vendor/lib/soundfx/libqcvirt.so
+vendor/lib64/libacdb-fts.so
+vendor/lib64/libacdbloader.so
+vendor/lib64/libacdbrtac.so
+vendor/lib64/libadiertac.so
+vendor/lib64/libaudcal.so
+vendor/lib64/libhwdaphal.so
+lib64/libaudioroute.so:vendor/lib64/libaudioroute.so
+-lib64/libtfa9890.so:vendor/lib64/libtfa9890.so
+etc/settings/17421/90_Sambo.parms:etc/settings/17421/90_Sambo.parms \
+etc/settings/17421/coldboot.patch:etc/settings/17421/coldboot.patch \
+etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq \
+etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset \
+etc/settings/17421/KS_13x18_Sambo_V2R2.speaker:etc/settings/17421/KS_13x18_Sambo_V2R2.speaker \
+etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq \
+etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset \
+etc/settings/17421/TFA9890_N1B12_N1C3_v2.config:etc/settings/17421/TFA9890_N1B12_N1C3_v2.config \
+etc/settings/17421/TFA9890_N1C3_1_7_1.patch:etc/settings/17421/TFA9890_N1C3_1_7_1.patch \
+etc/settings/17427/90_Sambo.parms:etc/settings/17427/90_Sambo.parms \
+etc/settings/17427/coldboot.patch:etc/settings/17427/coldboot.patch \
+etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq \
+etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset \
+etc/settings/17427/KS_13x18_Sambo_V2R2.speaker:etc/settings/17427/KS_13x18_Sambo_V2R2.speaker \
+etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq \
+etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset \
+etc/settings/17427/TFA9890_N1B12_N1C3_v2.config:etc/settings/17427/TFA9890_N1B12_N1C3_v2.config \
+etc/settings/17427/TFA9890_N1C3_1_7_1.patch:etc/settings/17427/TFA9890_N1C3_1_7_1.patch
+
+# Media
+vendor/lib/libDivxDrm.so
+vendor/lib/libI420colorconvert.so
+vendor/lib/libOmxAacDec.so
+vendor/lib/libOmxAmrwbplusDec.so
+vendor/lib/libOmxEvrcDec.so
+vendor/lib/libOmxQcelp13Dec.so
+vendor/lib/libOmxWmaDec.so
+vendor/lib/libSHIMDivxDrm.so
+vendor/lib/libmm-color-convertor.so
+vendor/lib/libmmosal.so
+vendor/lib64/libDivxDrm.so
+vendor/lib64/libI420colorconvert.so
+vendor/lib64/libOmxAacDec.so
+vendor/lib64/libOmxAmrwbplusDec.so
+vendor/lib64/libOmxWmaDec.so
+vendor/lib64/libSHIMDivxDrm.so
+vendor/lib64/libmm-color-convertor.so
+vendor/lib64/libmmosal.so
+
+# Media firmware
+etc/firmware/venus.b00
+etc/firmware/venus.b01
+etc/firmware/venus.b02
+etc/firmware/venus.b03
+etc/firmware/venus.b04
+etc/firmware/venus.mbn
+etc/firmware/venus.mdt
+
+# Radio
+bin/qmuxd:vendor/bin/qmuxd
+
+# Time services
+-app/TimeService/TimeService.apk:vendor/app/TimeService/TimeService.apk
+bin/time_daemon:vendor/bin/time_daemon
+vendor/lib/libtime_genoff.so
+vendor/lib64/libtime_genoff.so
+
+# ACDB
+etc/acdbdata/Fluid/Fluid_Bluetooth_cal.acdb
+etc/acdbdata/Fluid/Fluid_General_cal.acdb
+etc/acdbdata/Fluid/Fluid_Global_cal.acdb
+etc/acdbdata/Fluid/Fluid_Handset_cal.acdb
+etc/acdbdata/Fluid/Fluid_Hdmi_cal.acdb
+etc/acdbdata/Fluid/Fluid_Headset_cal.acdb
+etc/acdbdata/Fluid/Fluid_Speaker_cal.acdb
+etc/acdbdata/Liquid/Liquid_Bluetooth_cal.acdb
+etc/acdbdata/Liquid/Liquid_General_cal.acdb
+etc/acdbdata/Liquid/Liquid_Global_cal.acdb
+etc/acdbdata/Liquid/Liquid_Handset_cal.acdb
+etc/acdbdata/Liquid/Liquid_Hdmi_cal.acdb
+etc/acdbdata/Liquid/Liquid_Headset_cal.acdb
+etc/acdbdata/Liquid/Liquid_Speaker_cal.acdb
+etc/acdbdata/MTP/p17421/17421_version.txt
+etc/acdbdata/MTP/p17421/MTP17421_Bluetooth_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_General_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_Global_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_Handset_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_Hdmi_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_Headset_cal.acdb
+etc/acdbdata/MTP/p17421/MTP17421_Speaker_cal.acdb
+etc/acdbdata/MTP/p17427/17427_version.txt
+etc/acdbdata/MTP/p17427/MTP17427_Bluetooth_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_General_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_Global_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_Handset_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_Hdmi_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_Headset_cal.acdb
+etc/acdbdata/MTP/p17427/MTP17427_Speaker_cal.acdb
+
+# Peripheral manager
+bin/pm-proxy:vendor/bin/pm-proxy
+bin/pm-service:vendor/bin/pm-service
+vendor/lib/libperipheral_client.so
+vendor/lib64/libperipheral_client.so
+
+#Fingerprint
+etc/fpc1021.conf
+etc/fpc1021w160.bin
