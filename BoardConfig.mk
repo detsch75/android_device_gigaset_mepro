@@ -70,6 +70,9 @@ TARGET_KERNEL_CONFIG := msm8994-perf_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 
+# ANT+
+BOARD_ANT_WIRELESS_DEVICE := "qualcomm-uart"
+
 # Audio
 AUDIO_FEATURE_ENABLED_ACDB_LICENSE := true
 AUDIO_FEATURE_ENABLED_COMPRESS_CAPTURE := true
@@ -89,6 +92,7 @@ AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
 
 AUDIO_USE_LL_AS_PRIMARY_OUTPUT := false
 BOARD_USES_ALSA_AUDIO := true
+BOARD_SUPPORTS_SOUND_TRIGGER := true
 USE_CUSTOM_AUDIO_POLICY := 1
 
 # GPS
@@ -128,8 +132,8 @@ QCOM_BT_USE_BTNV := true
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(PLATFORM_PATH)/config.fs
 
- # Offmode Charging
- BOARD_HEALTHD_CUSTOM_CHARGER_RES := $(PLATFORM_PATH)/charger/images
+# Offmode Charging
+BOARD_HEALTHD_CUSTOM_CHARGER_RES := $(PLATFORM_PATH)/charger/images
 
 # HIDL
 DEVICE_MANIFEST_FILE := $(PLATFORM_PATH)/manifest.xml
@@ -176,6 +180,11 @@ TARGET_LDPRELOAD := libNimsWrap.so
 
 # Keystore
 TARGET_PROVIDES_KEYMASTER := false
+
+# Force camera module to be compiled only in 32-bit mode on 64-bit systems
+# Once camera module can run in the native mode of the system (either
+# 32-bit or 64-bit), the following line should be deleted
+BOARD_QTI_CAMERA_32BIT_ONLY := true
 
 # Dexpreopt
 ifeq ($(HOST_OS),linux)

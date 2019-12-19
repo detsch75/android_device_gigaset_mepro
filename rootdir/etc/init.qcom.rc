@@ -99,6 +99,9 @@ on early-boot
     #chown root audio /sys/kernel/boot_adsp/boot
 
 on boot
+    #Gigaset dual SIM
+    setprop persist.radio.multisim.config dsds
+
     # Create NETMGR daemon socket area
     mkdir /dev/socket/netmgr 0750 radio radio
 
@@ -152,6 +155,9 @@ on boot
 
     # Wifi firmware reload path
     #chown wifi wifi /sys/module/wlan/parameters/fwpath
+
+    start rmt_storage
+    start rfs_access
 
 # msm specific files that need to be created on /data
 on post-fs-data
@@ -241,6 +247,20 @@ on property:sys.boot_completed=1
     write /sys/module/lowmemorykiller/parameters/minfree "18432,23040,27648,32256,55296,80640"
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 81250
 
+service rmt_storage /system/vendor/bin/rmt_storage
+    class core
+    user root
+    group root system wakelock
+    shutdown critical
+    ioprio rt 0
+    writepid /dev/cpuset/system-background/tasks
+
+service rfs_access /system/vendor/bin/rfs_access
+    class core
+    user root
+    group system net_raw
+    writepid /dev/cpuset/system-background/tasks
+
 service qseecomd /system/vendor/bin/qseecomd
     class core
     user root
@@ -251,18 +271,14 @@ service perfd /system/vendor/bin/perfd
     class main
     user root
     group root system readproc
-    disabled
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service per_mgr /system/vendor/bin/pm-service
-    class late_start
-    user system
+    class core
+    user root
     group system net_raw
     writepid /dev/cpuset/system-background/tasks
-    disabled
-
-on property:per_mgr_start=ok
-    start per_mgr
 
 service per_proxy /system/vendor/bin/pm-proxy
     class late_start
@@ -297,21 +313,21 @@ service adsprpcd /system/vendor/bin/adsprpcd
     user media
     group media
 
-#service imsqmidaemon /system/vendor/bin/imsqmidaemon
-#    class main
-#    user system
-#    socket ims_qmid stream 0660 system radio
-#    group radio net_raw log qcom_diag
+service imsqmidaemon /system/vendor/bin/imsqmidaemon
+    class main
+    user system
+    socket ims_qmid stream 0660 system radio
+    group radio net_raw log qcom_diag
 
-#service imsdatadaemon /system/vendor/bin/imsdatadaemon
-#    class main
-#    user system
-#    socket ims_datad stream 0660 system radio
-#    group system wifi radio inet net_raw log qcom_diag net_admin
-#    disabled
+service imsdatadaemon /system/vendor/bin/imsdatadaemon
+    class main
+    user system
+    socket ims_datad stream 0660 system radio
+    group system wifi radio inet net_raw log qcom_diag net_admin
+    disabled
 
-#on property:sys.ims.QMI_DAEMON_STATUS=1
-#    start imsdatadaemon
+on property:sys.ims.QMI_DAEMON_STATUS=1
+    start imsdatadaemon
 
 service energy-awareness /system/vendor/bin/energy-awareness
     class main
@@ -395,6 +411,11 @@ service hciattach /vendor/bin/init.qcom.bt.sh
     seclabel u:r:bluetooth_loader:s0
     oneshot
 
+service qcom-c_main-sh /vendor/bin/init.class_main.sh
+    class main
+    user root
+    oneshot
+
 #on property:bluetooth.hciattach=true
 #    start hciattach
 
@@ -428,17 +449,41 @@ service qmuxd /system/vendor/bin/qmuxd
     user root
     group radio audio bluetooth gps oem_2950
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service netmgrd /system/vendor/bin/netmgrd
     class main
     user root
     group root system wifi wakelock radio inet oem_2950
     writepid /dev/cpuset/system-background/tasks
+    disabled
+
+service ril-daemon2 /vendor/bin/hw/rild -c 2
+    class main
+    socket rild2 stream 660 root radio
+    socket rild-debug2 stream 660 radio system
+    user root
+    disabled
+    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
+
+service ril-daemon3 /vendor/bin/hw/rild -c 3
+    class main
+    socket rild3 stream 660 root radio
+    socket rild-debug3 stream 660 radio system
+    user root
+    disabled
+    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
+
+service qti /system/vendor/bin/qti
+    class main
+    user radio
+    group radio net_raw qcom_diag usb net_admin
+    disabled
 
 service sensors /system/vendor/bin/sensors.qcom
     class late_start
     user root
-    group root system
+    group root
     disabled
 
 #on property:ro.use_data_netmgrd=false
@@ -471,11 +516,6 @@ service wpa_supplicant /system/vendor/bin/hw/wpa_supplicant \
 
 service qcom-sh /vendor/bin/init.qcom.sh
     class late_start
-    user root
-    oneshot
-
-service sensor-sh /vendor/bin/init.qcom.sensors.sh
-    class core
     user root
     oneshot
 

@@ -33,6 +33,25 @@ else
     platformid=`cat /sys/devices/system/soc/soc0/id`
 fi
 
+start_sensors()
+{
+    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
+        mkdir -p /persist/sensors
+        chmod 775 /persist/sensors
+        chmod 664 /persist/sensors/sensors_settings
+        chown -h system.root /persist/sensors/sensors_settings
+
+        mkdir -p /data/misc/sensors
+        chmod 775 /data/misc/sensors
+
+        touch /persist/sensors/sensors_dbg_config.txt
+        chmod 777 /persist/sensors/sensors_dbg_config.txt
+        echo "DDAlsPrx=1" > /persist/sensors/sensors_dbg_config.txt
+
+        start sensors
+    fi
+}
+
 start_battery_monitor()
 {
 	if ls /sys/bus/spmi/devices/qpnp-bms-*/fcc_data ; then
@@ -120,7 +139,8 @@ case "$baseband" in
         ;;
 esac
 
-#start_copying_prebuilt_qcril_db
+start_copying_prebuilt_qcril_db
+start_sensors
 
 case "$target" in
     "msm7630_surf" | "msm7630_1x" | "msm7630_fusion")
@@ -248,17 +268,11 @@ case "$emmc_boot"
     ;;
 esac
 
-#
 # Make modem config folder and copy firmware config to that folder
-#
 rm -rf /data/misc/radio/modem_config
 mkdir /data/misc/radio/modem_config
-#ifdef VENDOR_EDIT
-# Modify /data/misc/radio/modem_config authority to 770 from 660, and modify the target path to /system/etc/firmware/mbn_ota/, by hanqingpu@oneplus.cn, 20150530
 chmod 770 /data/misc/radio/modem_config
-cp -r /system/etc/firmware/mbn_ota/* /data/misc/radio/modem_config
-#endif /*VENDOR_EDIT*/
-chown -hR radio.radio /data/misc/radio/modem_config
+cp -r /firmware/image/modem_pr/mcfg/configs/* /data/misc/radio/modem_config
 echo 1 > /data/misc/radio/copy_complete
 
 setprop qcom.audio.init complete

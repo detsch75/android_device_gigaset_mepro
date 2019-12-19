@@ -31,8 +31,13 @@ vendor/lib64/libmm-qdcm.so
 
 # Net
 bin/netmgrd:vendor/bin/netmgrd
+etc/data/dsi_config.xml
+etc/data/netmgr_config.xml
+etc/data/qmi_config.xml
 
 # QMI
+bin/rfs_access:vendor/bin/rfs_access
+bin/rmt_storage:vendor/bin/rmt_storage
 bin/imsdatadaemon:vendor/bin/imsdatadaemon
 bin/imsqmidaemon:vendor/bin/imsqmidaemon
 vendor/lib/libcneapiclient.so
@@ -54,8 +59,10 @@ lib/libcnefeatureconfig.so:vendor/lib/libcnefeatureconfig.so:
 vendor/lib/libconfigdb.so
 vendor/lib/libnetmgr.so
 vendor/lib/libqdi.so
+vendor/lib/libqdp.so
 lib/libstlport.so:vendor/lib/libstlport.so
 vendor/lib/libxml.so
+vendor/lib/libsystem_health_mon.so
 -vendor/lib64/libdiag.so
 -vendor/lib64/libidl.so
 -vendor/lib64/libdsutils.so
@@ -75,8 +82,22 @@ lib64/libcnefeatureconfig.so:vendor/lib64/libcnefeatureconfig.so:
 vendor/lib64/libconfigdb.so
 vendor/lib64/libnetmgr.so
 vendor/lib64/libqdi.so
+vendor/lib64/libqdp.so
+vendor/lib64/libril-qc-qmi-1.so
+vendor/lib64/libril-qcril-hook-oem.so
 lib64/libstlport.so:vendor/lib64/libstlport.so
 vendor/lib64/libxml.so
+vendor/lib64/libsystem_health_mon.so
+
+# ???
+vendor/lib/lib-sec-disp.so
+vendor/lib/libsecureui.so
+vendor/lib/libsecureuisvc_jni.so
+vendor/lib/libsecureui_svcsock.so
+vendor/lib64/lib-sec-disp.so
+vendor/lib64/libsecureui.so
+vendor/lib64/libsecureuisvc_jni.so
+vendor/lib64/libsecureui_svcsock.so
 
 # Perf
 bin/energy-awareness:vendor/bin/energy-awareness
@@ -89,7 +110,13 @@ vendor/etc/perf-profile2.conf
 vendor/etc/perf-profile3.conf
 vendor/etc/perf-profile4.conf
 vendor/etc/perf-profile5.conf
+
+# QTI
+vendor/lib/libqti-at.so
+vendor/lib/libqti-gt.so
 vendor/lib/libqti-perfd-client.so
+vendor/lib64/libqti-at.so
+vendor/lib64/libqti-gt.so
 vendor/lib64/libqti-perfd-client.so
 
 # Sensors
@@ -97,11 +124,13 @@ bin/sensors.qcom:vendor/bin/sensors.qcom
 etc/sensors/sensor_def_qcomdev.conf
 vendor/lib/hw/activity_recognition.msm8994.so
 vendor/lib/hw/sensors.msm8994.so
+vendor/lib/hw/sensors.oem.so
 vendor/lib/libsensor1.so
 vendor/lib/libsensor_reg.so
 vendor/lib/libsensor_user_cal.so
 vendor/lib64/hw/activity_recognition.msm8994.so
 vendor/lib64/hw/sensors.msm8994.so
+vendor/lib64/hw/sensors.oem.so
 vendor/lib64/libsensor1.so
 vendor/lib64/libsensor_reg.so
 vendor/lib64/libsensor_user_cal.so
@@ -113,16 +142,16 @@ vendor/lib64/libNimsWrap.so
 bin/btnvtool:vendor/bin/btnvtool
 bin/hci_qcomm_init:vendor/bin/hci_qcomm_init
 bin/wcnss_filter:vendor/bin/wcnss_filter
-etc/firmware/nvm_tlv.bin:vendor/firmware/nvm_tlv.bin
-etc/firmware/nvm_tlv_1.3.bin:vendor/firmware/nvm_tlv_1.3.bin
-etc/firmware/nvm_tlv_2.1.bin:vendor/firmware/nvm_tlv_2.1.bin
-etc/firmware/nvm_tlv_3.0.bin:vendor/firmware/nvm_tlv_3.0.bin
-etc/firmware/nvm_tlv_3.2.bin:vendor/firmware/nvm_tlv_3.2.bin
-etc/firmware/rampatch_tlv.img:vendor/firmware/rampatch_tlv.img
-etc/firmware/rampatch_tlv_1.3.tlv:vendor/firmware/rampatch_tlv_1.3.tlv
-etc/firmware/rampatch_tlv_2.1.tlv:vendor/firmware/rampatch_tlv_2.1.tlv
-etc/firmware/rampatch_tlv_3.0.tlv:vendor/firmware/rampatch_tlv_3.0.tlv
-etc/firmware/rampatch_tlv_3.2.tlv:vendor/firmware/rampatch_tlv_3.2.tlv
+etc/firmware/nvm_tlv.bin
+etc/firmware/nvm_tlv_1.3.bin
+etc/firmware/nvm_tlv_2.1.bin
+etc/firmware/nvm_tlv_3.0.bin
+etc/firmware/nvm_tlv_3.2.bin
+etc/firmware/rampatch_tlv.img
+etc/firmware/rampatch_tlv_1.3.tlv
+etc/firmware/rampatch_tlv_2.1.tlv
+etc/firmware/rampatch_tlv_3.0.tlv
+etc/firmware/rampatch_tlv_3.2.tlv
 vendor/lib/libbtnv.so
 vendor/lib64/libbtnv.so
 
@@ -149,7 +178,6 @@ vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 vendor/lib/libhwdaphal.so
 vendor/lib/hw/sound_trigger.primary.msm8994.so
-lib/libaudioroute.so:vendor/lib/libaudioroute.so
 -lib/libtfa9890.so:vendor/lib/libtfa9890.so
 vendor/lib/libDiracAPI_SHARED.so
 vendor/lib/soundfx/libdirac.so
@@ -162,7 +190,6 @@ vendor/lib64/libacdbrtac.so
 vendor/lib64/libadiertac.so
 vendor/lib64/libaudcal.so
 vendor/lib64/libhwdaphal.so
-lib64/libaudioroute.so:vendor/lib64/libaudioroute.so
 -lib64/libtfa9890.so:vendor/lib64/libtfa9890.so
 etc/settings/17421/90_Sambo.parms:etc/settings/17421/90_Sambo.parms \
 etc/settings/17421/coldboot.patch:etc/settings/17421/coldboot.patch \
@@ -182,6 +209,14 @@ etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17427/Speech90_13x1
 etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset \
 etc/settings/17427/TFA9890_N1B12_N1C3_v2.config:etc/settings/17427/TFA9890_N1B12_N1C3_v2.config \
 etc/settings/17427/TFA9890_N1C3_1_7_1.patch:etc/settings/17427/TFA9890_N1C3_1_7_1.patch
+
+# DiracAudio
+-app/DiracAudioControlService/DiracAudioControlService.apk:vendor/app/DiracAudioControlService/DiracAudioControlService.apk
+app/DiracAudioControlService/arm64/DiracAudioControlService.odex:vendor/app/DiracAudioControlService/arm64/DiracAudioControlService.odex
+vendor/etc/diracvdd.bin
+vendor/etc/diracmobile.config
+etc/DiracEnableList
+etc/HIFIEnableList
 
 # Media
 vendor/lib/libDivxDrm.so
@@ -212,11 +247,20 @@ etc/firmware/venus.b04
 etc/firmware/venus.mbn
 etc/firmware/venus.mdt
 
+#Camera firmware
+etc/firmware/cpp_firmware_v1_1_1.fw
+etc/firmware/cpp_firmware_v1_1_6.fw
+etc/firmware/cpp_firmware_v1_2_0.fw
+etc/firmware/cpp_firmware_v1_4_0.fw
+etc/firmware/cpp_firmware_v1_6_0.fw
+etc/firmware/cpp_firmware_v1_8_0.fw
+
 # Radio
 bin/qmuxd:vendor/bin/qmuxd
 
 # Time services
 -app/TimeService/TimeService.apk:vendor/app/TimeService/TimeService.apk
+app/TimeService/arm64/TimeService.odex:vendor/app/TimeService/arm64/TimeService.aodexpk
 bin/time_daemon:vendor/bin/time_daemon
 vendor/lib/libtime_genoff.so
 vendor/lib64/libtime_genoff.so
@@ -253,12 +297,8 @@ etc/acdbdata/MTP/p17427/MTP17427_Hdmi_cal.acdb
 etc/acdbdata/MTP/p17427/MTP17427_Headset_cal.acdb
 etc/acdbdata/MTP/p17427/MTP17427_Speaker_cal.acdb
 
-# Peripheral manager
-bin/pm-proxy:vendor/bin/pm-proxy
-bin/pm-service:vendor/bin/pm-service
-vendor/lib/libperipheral_client.so
-vendor/lib64/libperipheral_client.so
-
 #Fingerprint
 etc/fpc1021.conf
 etc/fpc1021w160.bin
+-app/FingerprintService/FingerprintService.apk:vendor/app/FingerprintService/FingerprintService.apk
+app/FingerprintService/arm64/FingerprintService.odex:vendor/app/FingerprintService/arm64/FingerprintService.odex

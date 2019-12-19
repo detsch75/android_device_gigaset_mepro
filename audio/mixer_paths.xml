@@ -379,9 +379,6 @@
 	<ctl name="RevPABoostEnable" value="0" />
 	<ctl name="RevPAEnable"  value="0" />
 	<!-- End of add by Harry -->
-	
-    <!-- Needed to enable speaker -->
-	<ctl name="SMARTPA Switch Mute"  value="Mute" />
 
     <!-- These are audio route (FE to BE) specific mixer settings -->
     <path name="deep-buffer-playback">
@@ -390,28 +387,23 @@
 
     <path name="deep-buffer-playback speaker">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
    
     <path name="deep-buffer-playback voice-speaker">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
  
     <path name="deep-buffer-playback speaker-ring">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="deep-buffer-playback speaker-protected">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="deep-buffer-playback speaker-and-headphones">
     	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia1" value="1" />
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="echo-reference">
@@ -460,28 +452,23 @@
 
     <path name="low-latency-playback speaker">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
    
     <path name="low-latency-playback voice-speaker">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
  
     <path name="low-latency-playback speaker-ring">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="low-latency-playback speaker-protected">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="low-latency-playback speaker-and-headphones">
     	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia5" value="1" />
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="low-latency-playback hdmi">
@@ -529,23 +516,19 @@
 
     <path name="compress-offload-playback speaker">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia4" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="compress-offload-playback speaker-ring">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia4" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="compress-offload-playback speaker-protected">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia4" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
     
     <path name="compress-offload-playback speaker-and-headphones">
     	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia4" value="1" />
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia4" value="1" />
-        <ctl name="SMARTPA Switch Mute"  value="UnMute" />
     </path>
 
     <path name="compress-offload-playback hdmi">
@@ -1446,10 +1429,6 @@
         <ctl name="IIR1 INP1 MUX" value="DEC6" />
     </path>
 
-    <path name="smartPA">
-        <ctl name="MI2SCLK Enable" value="1" />
-    </path>
-
 	<path name="speaker-ring">
     </path>
 
@@ -1798,7 +1777,7 @@
 		<ctl name="HI-FI Switch Power" value="On" />
 		<ctl name="HI-FI Switch Sel" value="HI-FI" />
 		<ctl name="HI-FI Switch Mute" value="UnMute" />
-	    	<ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />   
+	    <ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />   
 	</path>
 	
 	<path name="headphones-hifi-low-16k">
@@ -1811,7 +1790,7 @@
 		<ctl name="HI-FI Switch Power" value="On" />
  	   	<ctl name="HI-FI Switch Sel" value="HI-FI" />
 		<ctl name="HI-FI Switch Mute" value="UnMute" />
-    		<ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
+    	<ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
 	</path>
 	
 	<path name="headphones-hifi-low-11-025k">
@@ -1820,9 +1799,9 @@
 		<ctl name="HI-FI Clk_44_1K Enable" value="ON" />
 		<ctl name="Set HIFI es9018 State" value="Open" />
 		<ctl name="HI-FI Switch Power" value="On" />
-    		<ctl name="HI-FI Switch Sel" value="HI-FI" />
+    	<ctl name="HI-FI Switch Sel" value="HI-FI" />
 		<ctl name="HI-FI Switch Mute" value="UnMute" />
-    		<ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
+    	<ctl name="TERT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
 	</path>
 	<!-- End of add by Harry -->
 	

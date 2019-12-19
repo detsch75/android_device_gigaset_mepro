@@ -30,30 +30,10 @@
 #include <sys/ioctl.h>
 #include <log/log.h>
 #include <hardware/audio_amplifier.h>
+#include <tinyalsa/asoundlib.h>
 #include <cutils/properties.h>
 
-static amplifier_device_t *tfa9890_dev = NULL;
-
-#define SAMPLE_RATE 48000
-
-/*
-  * Customize settings. (以下模式顺序可客户化配置)
-  */
-typedef enum TFA98xx_EQ_Mode
-{
-    TFA98XX_MUSIC_MODE = 0,
-    TFA98XX_RING_MODE,
-    TFA98XX_SPEECH_MODE,
-    TFA98XX_RECEIVER_MODE,
-} TFA98xx_EQ_Mode_t;
-
-int tfa9890_init(void);
-int tfa9890_deinit(void);
-void tfa9890_SpeakerOn(void);
-void tfa9890_SpeakerOff(void);
-void tfa9890_setSamplerate(int sRate);
-int tfa9890_EQset(int mode);
-void tfa9890_EchoReferenceConfigure(int config);
+#define SPEAKER_CTL "SMARTPA Switch Mute"
 
 // Load all audio param version
 #define AUDIO_ADSP_VERSION_PROP "audio.param.adsp.version"
@@ -66,6 +46,12 @@ void tfa9890_EchoReferenceConfigure(int config);
 #define AUDIO_SMARTPA_17427_VERSION_PATH "/etc/firmware/smartpa/17427_version.txt"
 #define AUDIO_ES704_VERSION_PATH "/sys/bus/slimbus/devices/es704-codec-gen0/fw_version"
 #define AUDIO_ES705_VERSION_PATH "/sys/bus/slimbus/devices/es705-codec-gen0/fw_version"
+
+typedef struct amp_device {
+    amplifier_device_t amp_dev;
+} amp_device_t;
+
+static amp_device_t *amp_dev = NULL;
 
 /*
 * Handle different system types
@@ -203,77 +189,87 @@ static int is_voice_speaker(uint32_t snd_device)
     return snd_device == SND_DEVICE_OUT_VOICE_SPEAKER;
 }
 
+static int set_speaker_enabled(bool enable)
+{
+    enum mixer_ctl_type type;
+    struct mixer_ctl *ctl;
+    struct mixer *mixer = mixer_open(0);
+
+    if (mixer == NULL) {
+        ALOGE("%s: Error opening mixer 0'", __func__);
+        return -1;
+    }
+
+    ctl = mixer_get_ctl_by_name(mixer, SPEAKER_CTL);
+    if (ctl == NULL) {
+        mixer_close(mixer);
+        ALOGE("%s: Could not find %s\n", __func__, SPEAKER_CTL);
+        return -ENODEV;
+    }
+
+    type = mixer_ctl_get_type(ctl);
+    if (type != MIXER_CTL_TYPE_ENUM) {
+        ALOGE("%s: %s is not supported\n", __func__, SPEAKER_CTL);
+        mixer_close(mixer);
+        return -ENOTTY;
+    }
+
+    ALOGD("%s: set speaker to %s\n", __func__, enable ? "UnMute" : "Mute");
+    if (enable) {
+        mixer_ctl_set_enum_by_string(ctl, "UnMute");
+    } else {
+        mixer_ctl_set_enum_by_string(ctl, "Mute");
+    }
+
+    mixer_close(mixer);
+    return 0;
+}
+
 static int amp_enable_output_devices(__attribute__((unused)) amplifier_device_t *device, uint32_t devices, bool enable)
 {
     if (is_speaker(devices))
     {
-        if (enable)
-        {
-            if (is_voice_speaker(devices))
-            {
-                tfa9890_EQset(TFA98XX_SPEECH_MODE);
-                tfa9890_EchoReferenceConfigure(1);
-            }
-            else
-            {
-                tfa9890_EQset(TFA98XX_MUSIC_MODE);
-                tfa9890_EchoReferenceConfigure(0);
-            }
-            tfa9890_SpeakerOn();
-        }
-        else
-        {
-            tfa9890_SpeakerOff();
-        }
+        set_speaker_enabled(enable);
+    } else {
+        set_speaker_enabled(false);
     }
     return 0;
 }
 
 static int amp_dev_close(hw_device_t *device)
 {
-    if (device)
-    {
-        //tfa9890_deinit();
-        free(device);
+    amp_device_t *amp_dev = (amp_device_t*) device;
+    if (amp_dev) {
+        free(amp_dev);
     }
     return 0;
 }
 
-static int amp_init(__attribute__((unused)) amplifier_device_t *device)
+static int amp_init(__attribute__((unused)) amp_device_t *device)
 {
-    //tfa9890_init();
-    //tfa9890_setSamplerate(SAMPLE_RATE);
-    //tfa9890_EQset(TFA98XX_MUSIC_MODE);
-    //tfa9890_SpeakerOn();
-    init_audio_param_version();
     return 0;
 }
 
 static int amp_module_open(const hw_module_t *module, __attribute__((unused)) const char *name, hw_device_t **device)
 {
-    if (tfa9890_dev)
+    if (amp_dev)
     {
-        ALOGE("%s:%d: Unable to open second instance of TFA9890 amplifier\n", __func__, __LINE__);
+        ALOGE("%s:%d: Unable to open second instance of amplifier\n", __func__, __LINE__);
         return -EBUSY;
     }
-    tfa9890_dev = (amplifier_device_t *)calloc(1, sizeof(amplifier_device_t));
-    if (!tfa9890_dev)
+    amp_dev = (amp_device_t *)calloc(1, sizeof(amp_device_t));
+    if (!amp_dev)
     {
         ALOGE("%s:%d: Unable to allocate memory for amplifier device\n", __func__, __LINE__);
         return -ENOMEM;
     }
-    tfa9890_dev->common.tag = HARDWARE_DEVICE_TAG;
-    tfa9890_dev->common.module = (hw_module_t *)module;
-    tfa9890_dev->common.version = HARDWARE_DEVICE_API_VERSION(1, 0);
-    tfa9890_dev->common.close = amp_dev_close;
-    tfa9890_dev->enable_output_devices = amp_enable_output_devices;
+    amp_dev->amp_dev.common.tag = HARDWARE_DEVICE_TAG;
+    amp_dev->amp_dev.common.module = (hw_module_t *)module;
+    amp_dev->amp_dev.common.version = HARDWARE_DEVICE_API_VERSION(1, 0);
+    amp_dev->amp_dev.common.close = amp_dev_close;
+    amp_dev->amp_dev.enable_output_devices = amp_enable_output_devices;
 
-    if (amp_init(tfa9890_dev))
-    {
-        free(tfa9890_dev);
-        return -ENODEV;
-    }
-    *device = (hw_device_t *)tfa9890_dev;
+    *device = (hw_device_t *)amp_dev;
     return 0;
 }
 
