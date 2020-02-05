@@ -71,8 +71,20 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 # Haters gonna hate..
 PRODUCT_CHARACTERISTICS := default
 
+# Telephony
 PRODUCT_PACKAGES += \
-    libshim_atomic
+    qti-telephony-common \
+    telephony-ext
+
+PRODUCT_BOOT_JARS += \
+    telephony-ext \
+    oem-services
+
+# SHIM libs
+PRODUCT_PACKAGES += \
+    libshim_atomic \
+    libshim_parcel \
+    libshim_loc_core
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -88,6 +100,15 @@ PRODUCT_PACKAGES += \
     init.class_main.sh \
     init.recovery.qcom.rc \
     ueventd.qcom.rc 
+
+# Modem debugger
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PACKAGES += \
+    $(LOCAL_PATH)/root/etc/init.qcom.diag.rc.userdebug:$(TARGET_OUT_VENDOR_ETC)/init/hw/init.qcom.diag.rc
+else
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/root/etc/init.qcom.diag.rc.user:$(TARGET_OUT_VENDOR_ETC)/init/hw/init.qcom.diag.rc
+endif
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -139,7 +160,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.0-service
 
-PRODUCT_PROPERTY_OVERRIDES += audio.offload.disable=1
+PRODUCT_PROPERTY_OVERRIDES += \
+    audio.offload.disable=1
 
 # Audio
 #USE_XML_AUDIO_POLICY_CONF := 1
@@ -198,15 +220,19 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=256m
+
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.debug.sensors.hal=1 \
-    persist.debug.ar.hal=1 \
-    debug.qualcomm.sns.libsensor1=1 \
-    debug.qualcomm.sns.daemon=1 \
-    debug.qualcomm.sns.hal=1 \
-    debug.sns.hal.ftrace=1
+    persist.debug.sensors.hal=0 \
+    persist.debug.ar.hal=0 \
+    debug.qualcomm.sns.libsensor1=0 \
+    debug.qualcomm.sns.daemon=0 \
+    debug.qualcomm.sns.hal=0 \
+    debug.sns.hal.ftrace=0
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.qti.sensors.dev_ori=true
 
 # For data
 PRODUCT_PACKAGES += \
@@ -254,14 +280,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ril/qcril.db:$(TARGET_COPY_OUT_VENDOR)/qcril.db
 
-# Custom wifi service
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/vendor/etc/init/android.hardware.wifi@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi@1.0-service.rc
-
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
-    $(LOCAL_PATH)/configs/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
+    $(LOCAL_PATH)/configs/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml
 
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
@@ -298,6 +320,34 @@ PRODUCT_PACKAGES += \
 # Vibrator
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl
+
+# Prebuild Apps
+PRODUCT_PACKAGES += \
+    DiracAudioControlService \
+    qcrilmsgtunnel \
+    TimeService \
+    com.qualcomm.qti.services.secureui
+    #FingerprintService
+
+# Prebuild Jars
+PRODUCT_PACKAGES += \
+    qcrilhook \
+    qcnvitems \
+    oem-services
+
+# GPS
+PRODUCT_PACKAGES += \
+    android.hardware.gnss@1.0-impl \
+    gps.msm8994 \
+    flp.conf \
+    gps.conf \
+    izat.conf \
+    lowi.conf \
+    sap.conf \
+    xtwifi.conf
+
+#PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+#    persist.sys.usb.config=mtp
 
 # Inherit from oppo-common
 $(call inherit-product, device/oppo/common/common.mk)

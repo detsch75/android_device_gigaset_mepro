@@ -9,12 +9,14 @@ vendor/lib64/libthermalioctl.so
 bin/qseecomd:vendor/bin/qseecomd
 vendor/lib/libQSEEComAPI.so
 vendor/lib/libsecureui.so
+vendor/lib/libStDrvInt.so
 vendor/lib64/libdrmfs.so
 vendor/lib64/libdrmtime.so
 vendor/lib64/libQSEEComAPI.so
 vendor/lib64/librpmb.so
 vendor/lib64/libsecureui.so
 vendor/lib64/libssd.so
+vendor/lib64/libStDrvInt.so
 
 # Postprocessing
 bin/mm-pp-daemon:vendor/bin/mm-pp-daemon
@@ -35,12 +37,20 @@ etc/data/dsi_config.xml
 etc/data/netmgr_config.xml
 etc/data/qmi_config.xml
 
+bin/cnd:vendor/bin/cnd
+bin/dpmd:vendor/bin/dpmd
+
 # QMI
+bin/irsc_util:vendor/bin/irsc_util
 bin/rfs_access:vendor/bin/rfs_access
 bin/rmt_storage:vendor/bin/rmt_storage
 bin/imsdatadaemon:vendor/bin/imsdatadaemon
 bin/imsqmidaemon:vendor/bin/imsqmidaemon
+vendor/lib/libdpmframework.so
+vendor/lib/libcne.so
 vendor/lib/libcneapiclient.so
+vendor/lib/libcneconn.so
+vendor/lib/libcneqmiutils.so
 vendor/lib/libdsi_netctrl.so
 -vendor/lib/libdiag.so
 -vendor/lib/libdsutils.so
@@ -63,6 +73,7 @@ vendor/lib/libqdp.so
 lib/libstlport.so:vendor/lib/libstlport.so
 vendor/lib/libxml.so
 vendor/lib/libsystem_health_mon.so
+vendor/lib/libvendorconn.so
 -vendor/lib64/libdiag.so
 -vendor/lib64/libidl.so
 -vendor/lib64/libdsutils.so
@@ -76,7 +87,11 @@ vendor/lib64/libqmi_encdec.so
 vendor/lib64/libsmemlog.so
 -vendor/lib64/libqmiservices.so
 -vendor/lib64/libmdmdetect.so
+vendor/lib64/libdpmframework.so
+vendor/lib64/libcne.so
 vendor/lib64/libcneapiclient.so
+vendor/lib64/libcneconn.so
+vendor/lib64/libcneqmiutils.so
 vendor/lib64/libdsi_netctrl.so
 lib64/libcnefeatureconfig.so:vendor/lib64/libcnefeatureconfig.so:
 vendor/lib64/libconfigdb.so
@@ -88,6 +103,7 @@ vendor/lib64/libril-qcril-hook-oem.so
 lib64/libstlport.so:vendor/lib64/libstlport.so
 vendor/lib64/libxml.so
 vendor/lib64/libsystem_health_mon.so
+vendor/lib64/libvendorconn.so
 
 # ???
 vendor/lib/lib-sec-disp.so
@@ -112,6 +128,7 @@ vendor/etc/perf-profile4.conf
 vendor/etc/perf-profile5.conf
 
 # QTI
+vendor/bin/qti
 vendor/lib/libqti-at.so
 vendor/lib/libqti-gt.so
 vendor/lib/libqti-perfd-client.so
@@ -191,28 +208,26 @@ vendor/lib64/libadiertac.so
 vendor/lib64/libaudcal.so
 vendor/lib64/libhwdaphal.so
 -lib64/libtfa9890.so:vendor/lib64/libtfa9890.so
-etc/settings/17421/90_Sambo.parms:etc/settings/17421/90_Sambo.parms \
-etc/settings/17421/coldboot.patch:etc/settings/17421/coldboot.patch \
-etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq \
-etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset \
-etc/settings/17421/KS_13x18_Sambo_V2R2.speaker:etc/settings/17421/KS_13x18_Sambo_V2R2.speaker \
-etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq \
-etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset \
-etc/settings/17421/TFA9890_N1B12_N1C3_v2.config:etc/settings/17421/TFA9890_N1B12_N1C3_v2.config \
-etc/settings/17421/TFA9890_N1C3_1_7_1.patch:etc/settings/17421/TFA9890_N1C3_1_7_1.patch \
-etc/settings/17427/90_Sambo.parms:etc/settings/17427/90_Sambo.parms \
-etc/settings/17427/coldboot.patch:etc/settings/17427/coldboot.patch \
-etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq \
-etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset \
-etc/settings/17427/KS_13x18_Sambo_V2R2.speaker:etc/settings/17427/KS_13x18_Sambo_V2R2.speaker \
-etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq \
-etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset \
-etc/settings/17427/TFA9890_N1B12_N1C3_v2.config:etc/settings/17427/TFA9890_N1B12_N1C3_v2.config \
+etc/settings/17421/90_Sambo.parms:etc/settings/17421/90_Sambo.parms
+etc/settings/17421/coldboot.patch:etc/settings/17421/coldboot.patch
+etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17421/HQ90_13x18_Sambo_V2R2.eq
+etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17421/HQ90_13x18_Sambo_V2R2.preset
+etc/settings/17421/KS_13x18_Sambo_V2R2.speaker:etc/settings/17421/KS_13x18_Sambo_V2R2.speaker
+etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17421/Speech90_13x18_Sambo_V2R2.eq
+etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17421/Speech90_13x18_Sambo_V2R2.preset
+etc/settings/17421/TFA9890_N1B12_N1C3_v2.config:etc/settings/17421/TFA9890_N1B12_N1C3_v2.config
+etc/settings/17421/TFA9890_N1C3_1_7_1.patch:etc/settings/17421/TFA9890_N1C3_1_7_1.patch
+etc/settings/17427/90_Sambo.parms:etc/settings/17427/90_Sambo.parms
+etc/settings/17427/coldboot.patch:etc/settings/17427/coldboot.patch
+etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq:etc/settings/17427/HQ90_13x18_Sambo_V2R2.eq
+etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset:etc/settings/17427/HQ90_13x18_Sambo_V2R2.preset
+etc/settings/17427/KS_13x18_Sambo_V2R2.speaker:etc/settings/17427/KS_13x18_Sambo_V2R2.speaker
+etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq:etc/settings/17427/Speech90_13x18_Sambo_V2R2.eq
+etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset:etc/settings/17427/Speech90_13x18_Sambo_V2R2.preset
+etc/settings/17427/TFA9890_N1B12_N1C3_v2.config:etc/settings/17427/TFA9890_N1B12_N1C3_v2.config
 etc/settings/17427/TFA9890_N1C3_1_7_1.patch:etc/settings/17427/TFA9890_N1C3_1_7_1.patch
 
 # DiracAudio
--app/DiracAudioControlService/DiracAudioControlService.apk:vendor/app/DiracAudioControlService/DiracAudioControlService.apk
-app/DiracAudioControlService/arm64/DiracAudioControlService.odex:vendor/app/DiracAudioControlService/arm64/DiracAudioControlService.odex
 vendor/etc/diracvdd.bin
 vendor/etc/diracmobile.config
 etc/DiracEnableList
@@ -257,13 +272,16 @@ etc/firmware/cpp_firmware_v1_8_0.fw
 
 # Radio
 bin/qmuxd:vendor/bin/qmuxd
+etc/permissions/qcrilhook.xml
+etc/permissions/qcnvitems.xml
+etc/permissions/qti_permissions.xml
 
 # Time services
--app/TimeService/TimeService.apk:vendor/app/TimeService/TimeService.apk
-app/TimeService/arm64/TimeService.odex:vendor/app/TimeService/arm64/TimeService.aodexpk
 bin/time_daemon:vendor/bin/time_daemon
 vendor/lib/libtime_genoff.so
 vendor/lib64/libtime_genoff.so
+vendor/lib/libTimeService.so
+vendor/lib64/libTimeService.so
 
 # ACDB
 etc/acdbdata/Fluid/Fluid_Bluetooth_cal.acdb
@@ -300,5 +318,41 @@ etc/acdbdata/MTP/p17427/MTP17427_Speaker_cal.acdb
 #Fingerprint
 etc/fpc1021.conf
 etc/fpc1021w160.bin
--app/FingerprintService/FingerprintService.apk:vendor/app/FingerprintService/FingerprintService.apk
-app/FingerprintService/arm64/FingerprintService.odex:vendor/app/FingerprintService/arm64/FingerprintService.odex
+lib/libcom_fingerprints_sensor.so:vendor/lib/libcom_fingerprints_sensor.so
+lib/libcom_fingerprints_service.so:vendor/lib/libcom_fingerprints_service.so
+lib64/libcom_fingerprints_sensor.so:vendor/lib64/libcom_fingerprints_sensor.so
+lib64/libcom_fingerprints_service.so:vendor/lib64/libcom_fingerprints_service.so
+
+#GPS
+#bin/gpsone_daemon:vendor/bin/gpsone_daemon
+#bin/loc_launcher:vendor/bin/loc_launcher
+#bin/location-mq:vendor/bin/location-mq
+#bin/lowi-server:vendor/bin/lowi-server
+#bin/quipc_igsn:vendor/bin/quipc_igsn
+#bin/quipc_main:vendor/bin/quipc_main
+#bin/xtwifi-client:vendor/bin/xtwifi-client
+#bin/xtwifi-inet-agent:vendor/bin/xtwifi-inet-agent
+#vendor/bin/slim_ap_daemon
+
+#lib/libgps.utils.so:vendor/lib/libgps.utils.so
+#lib/libloc_api_v02.so:vendor/lib/libloc_api_v02.so
+#lib/libloc_core.so:vendor/lib/libloc_core.so
+#lib/libloc_ds_api.so:vendor/lib/libloc_ds_api.so
+#vendor/lib/libgeofence.so
+#vendor/lib/libizat_core.so
+#vendor/lib/liblbs_core.so
+#vendor/lib/liblocationservice.so
+#vendor/lib/libquipc_os_api.so
+#vendor/lib/libulp2.so
+#vendor/lib/hw/flp.default.so
+#lib64/libgps.utils.so:vendor/lib64/libgps.utils.so
+#lib64/libloc_api_v02.so:vendor/lib64/libloc_api_v02.so
+#lib64/libloc_core.so:vendor/lib64/libloc_core.so
+#lib64/libloc_ds_api.so:vendor/lib64/libloc_ds_api.so
+#vendor/lib64/libgeofence.so
+#vendor/lib64/libizat_core.so
+#vendor/lib64/liblbs_core.so
+#vendor/lib64/liblocationservice.so
+#vendor/lib64/libquipc_os_api.so
+#vendor/lib64/libulp2.so
+#vendor/lib64/hw/flp.default.so

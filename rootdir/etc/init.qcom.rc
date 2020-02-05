@@ -27,6 +27,7 @@
 
 import /vendor/etc/init/hw/init.qcom.power.rc
 import /vendor/etc/init/hw/init.qcom.usb.rc
+import /vendor/etc/init/hw/init.qcom.diag.rc
 
 on early-init
     symlink /data/tombstones /tombstones
@@ -50,7 +51,7 @@ on fs
     restorecon_recursive /persist
 
 on init
-    export LD_PRELOAD libshim_atomic.so
+    export LD_PRELOAD libshim_atomic.so:libshim_parcel.so
 
     chmod 0644 /proc/cmdline
     symlink /sdcard /storage/sdcard0
@@ -93,6 +94,11 @@ on init
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
+
+    exec u:r:modprobe:s0 -- /system/vendor/bin/modprobe -a -d \
+        /system/vendor/lib/modules wlan.ko
+
+    setprop wlan.driver.status ok
 
     # Allow subsystem (modem etc) debugging
     write /sys/kernel/boot_adsp/boot 1
@@ -152,6 +158,23 @@ on boot
     chmod 0664 /sys/devices/virtual/graphics/fb1/pa
     chmod 0664 /sys/devices/virtual/graphics/fb1/cec/wr_msg
     chmod 0664 /sys/devices/virtual/graphics/fb1/hdcp/tp
+
+    #Create QMUX deamon socket area
+    mkdir /dev/socket/qmux_radio 0770 radio radio
+    chmod 2770 /dev/socket/qmux_radio
+    mkdir /dev/socket/qmux_audio 0770 media audio
+    chmod 2770 /dev/socket/qmux_audio
+    mkdir /dev/socket/qmux_bluetooth 0770 bluetooth bluetooth
+    chmod 2770 /dev/socket/qmux_bluetooth
+    mkdir /dev/socket/qmux_gps 0770 gps gps
+    chmod 2770 /dev/socket/qmux_gps
+    mkdir /dev/socket/qmux_nfc 0770 nfc nfc
+    chmod 2770 /dev/socket/qmux_nfc
+
+    # Mark the copy complete flag to not completed
+    write /data/misc/radio/copy_complete 0
+    chown radio radio /data/misc/radio/copy_complete
+    chmod 0660 /data/misc/radio/copy_complete
 
     # Wifi firmware reload path
     #chown wifi wifi /sys/module/wlan/parameters/fwpath
@@ -247,6 +270,19 @@ on property:sys.boot_completed=1
     write /sys/module/lowmemorykiller/parameters/minfree "18432,23040,27648,32256,55296,80640"
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 81250
 
+service cnd /system/vendor/bin/cnd
+    class late_start
+    socket cnd stream 660 root inet
+
+service dpmd /system/vendor/bin/dpmd
+    class late_start
+    socket dpmd stream 660 root system
+
+service irsc_util /system/vendor/bin/irsc_util "/vendor/etc/sec_config"
+    class main
+    user root
+    oneshot
+
 service rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
@@ -254,17 +290,19 @@ service rmt_storage /system/vendor/bin/rmt_storage
     shutdown critical
     ioprio rt 0
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service rfs_access /system/vendor/bin/rfs_access
     class core
     user root
     group system net_raw
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service qseecomd /system/vendor/bin/qseecomd
     class core
     user root
-    group root
+    group root system
     writepid /dev/cpuset/system-background/tasks
 
 service perfd /system/vendor/bin/perfd
@@ -305,8 +343,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
 service time_daemon /system/vendor/bin/time_daemon
     class late_start
     user root
-    group root
-    writepid /dev/cpuset/system-background/tasks
+    group root radio
 
 service adsprpcd /system/vendor/bin/adsprpcd
     class main
@@ -447,7 +484,7 @@ service btsnoop /system/bin/btsnoop
 service qmuxd /system/vendor/bin/qmuxd
     class main
     user root
-    group radio audio bluetooth gps oem_2950
+    group radio audio bluetooth gps nfc oem_2950
     writepid /dev/cpuset/system-background/tasks
     disabled
 
@@ -460,35 +497,33 @@ service netmgrd /system/vendor/bin/netmgrd
 
 service ril-daemon2 /vendor/bin/hw/rild -c 2
     class main
-    socket rild2 stream 660 root radio
-    socket rild-debug2 stream 660 radio system
-    user root
+    user radio
+    group radio cache inet misc audio log readproc wakelock oem_2901
+    capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
     disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
 
 service ril-daemon3 /vendor/bin/hw/rild -c 3
     class main
-    socket rild3 stream 660 root radio
-    socket rild-debug3 stream 660 radio system
-    user root
+    user radio
+    group radio cache inet misc audio log readproc wakelock oem_2901
+    capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
     disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
 
 service qti /system/vendor/bin/qti
     class main
     user radio
-    group radio net_raw qcom_diag usb net_admin
+    group radio net_raw usb net_admin oem_2901
     disabled
 
 service sensors /system/vendor/bin/sensors.qcom
-    class late_start
+    class core
     user root
-    group root
+    group root system input
     disabled
 
-#on property:ro.use_data_netmgrd=false
-#    # netmgr not supported on specific target
-#    stop netmgrd
+on property:ro.use_data_netmgrd=false
+    # netmgr not supported on specific target
+    stop netmgrd
 
 # Adjust socket buffer to enlarge TCP receive window for high bandwidth
 # but only if ro.data.large_tcp_window_size property is set.

@@ -48,9 +48,9 @@ write_makefiles "$MY_DIR"/proprietary-files.txt
 
 cat << EOF >> "$ANDROIDMK"
 
-\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/wcd9320_anc.bin wcd9320_anc.bin && popd > /dev/null)
-\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/wcd9320_mad_audio.bin wcd9320_mad_audio.bin && popd > /dev/null)
-\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -s /data/misc/audio/mbhc.bin wcd9320_mbhc.bin && popd > /dev/null)
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -fs /data/misc/audio/wcd9320_anc.bin wcd9320_anc.bin && popd > /dev/null)
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -fs /data/misc/audio/wcd9320_mad_audio.bin wcd9320_mad_audio.bin && popd > /dev/null)
+\$(shell mkdir -p \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 && pushd \$(PRODUCT_OUT)/system/etc/firmware/wcd9320 > /dev/null && ln -fs /data/misc/audio/mbhc.bin wcd9320_mbhc.bin && popd > /dev/null)
 EOF
 
 # We are done!

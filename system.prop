@@ -81,3 +81,13 @@ vidc.enc.dcvs.extra-buff-count=2
 
 # Time services
 persist.timed.enable=true
+
+# Data modules
+ro.use_data_netmgrd=true
+persist.data.netmgrd.qos.enable=true
+persist.data.mode=concurrent
+ro.data.large_tcp_window_size=true
+
+#GPS
+persist.gps.qc_nlp_in_use=1
+persist.loc.nlp_name=com.qualcomm.location
