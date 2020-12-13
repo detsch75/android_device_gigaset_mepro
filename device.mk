@@ -77,8 +77,9 @@ PRODUCT_PACKAGES += \
     telephony-ext
 
 PRODUCT_BOOT_JARS += \
-    telephony-ext \
-    oem-services
+    telephony-ext
+    #
+    #oem-services
 
 # SHIM libs
 PRODUCT_PACKAGES += \
@@ -332,8 +333,9 @@ PRODUCT_PACKAGES += \
 # Prebuild Jars
 PRODUCT_PACKAGES += \
     qcrilhook \
-    qcnvitems \
-    oem-services
+    qcnvitems
+    #
+    #oem-services
 
 # GPS
 PRODUCT_PACKAGES += \

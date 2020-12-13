@@ -2,5 +2,9 @@
   {
     "repository": "android_device_oppo_common",
     "target_path": "device/oppo/common"
+  },
+  {
+    "repository": "android_kernel_gigaset_msm8994",
+    "target_path": "kernel/gigaset/msm8994"
   }
 ]

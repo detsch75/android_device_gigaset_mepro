@@ -15,4 +15,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage.mk
+    $(LOCAL_DIR)/lineage_mepro.mk
+
+COMMON_LUNCH_CHOICES := \
+    lineage_mepro-user \
+    lineage_mepro-userdebug \
+    lineage_mepro-eng
